@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulado · Laboratório Decimal · Matemática 6º ano</title>
+<style>
+  :root{--cosmos:#0e1a2b;--painel:#13233b;--painel2:#1b3252;--verde:#3ddc84;--roxo:#38bdf8;
+    --ambar:#fbbf24;--texto:#eaf2ff;--suave:#aebfd8;--erro:#ff6b6b;--borda:#274063;--azulescuro:#0a1324}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:
+    radial-gradient(900px 500px at 15% -10%, #16304f 0%, transparent 60%),
+    radial-gradient(800px 500px at 110% 10%, #10303a 0%, transparent 55%),#0e1a2b;
+    color:var(--texto);line-height:1.6;padding-bottom:70px}
+  header.topo{background:linear-gradient(120deg,#0a1324,#13233b);border-bottom:4px solid var(--erro);
+    padding:22px 16px;text-align:center}
+  header.topo .selo{display:inline-block;background:rgba(255,107,107,.14);color:var(--erro);
+    border:1px solid var(--erro);border-radius:20px;padding:4px 14px;font-size:.8rem;letter-spacing:1px;margin-bottom:10px}
+  header.topo h1{font-size:1.8rem;color:#fff}
+  header.topo p{color:var(--suave);margin-top:6px}
+  .wrap{max-width:820px;margin:0 auto;padding:0 16px}
+  nav.abas{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:18px 0}
+  nav.abas a{background:var(--painel);border:1px solid var(--borda);color:var(--suave);text-decoration:none;
+    padding:8px 14px;border-radius:10px;font-size:.88rem}
+  nav.abas a:hover{border-color:var(--erro);color:#fff}
+  nav.abas a.atual{background:var(--erro);color:#2a0a0a;font-weight:700;border-color:var(--erro)}
+  .intro{background:var(--painel);border:1px solid var(--borda);border-radius:14px;padding:16px;margin:16px 0;color:var(--suave)}
+  .q{background:var(--painel);border:1px solid var(--borda);border-left:5px solid var(--erro);
+    border-radius:14px;padding:18px;margin:16px 0}
+  .q .num{color:var(--erro);font-weight:700;font-size:.82rem;letter-spacing:.5px}
+  .q .top{font-size:.72rem;color:var(--ambar);border:1px solid var(--ambar);border-radius:6px;padding:1px 8px;float:right}
+  .q h3{color:#fff;font-size:1.05rem;margin:8px 0 12px;clear:both}
+  .romanos{background:#0c2036;border:1px solid var(--borda);border-radius:10px;padding:10px 14px;margin:10px 0}
+  .romanos div{margin:5px 0;color:#e7f0ff;font-size:.96rem}
+  .op{display:block;background:#0c2036;border:1px solid var(--borda);border-radius:10px;padding:11px 14px;
+    margin:8px 0;cursor:pointer;transition:.15s;color:#e7f0ff}
+  .op:hover{border-color:var(--erro)}
+  .op.sel{border-color:var(--roxo);background:#15314d}
+  .op.certa{border-color:var(--verde);background:rgba(61,220,132,.14)}
+  .op.errada{border-color:var(--erro);background:rgba(255,107,107,.12)}
+  .op .letra{display:inline-block;width:22px;font-weight:700;color:var(--roxo)}
+  .just{margin-top:10px;padding:10px;border-radius:8px;background:rgba(251,191,36,.08);border:1px dashed var(--ambar);
+    font-size:.9rem;color:#ffe9a6;display:none}
+  .just.on{display:block}
+  .btn{background:var(--erro);color:#fff;border:none;border-radius:10px;padding:12px 22px;font-size:1rem;font-weight:700;cursor:pointer}
+  .btn:hover{filter:brightness(1.08)}
+  .btn.verde{background:var(--verde);color:#06240f}
+  .btn.sec{background:transparent;color:var(--suave);border:1px solid var(--borda);font-size:.82rem;padding:6px 12px}
+  .resultado{background:var(--painel);border:2px solid var(--erro);border-radius:16px;padding:22px;margin:20px 0;text-align:center;display:none}
+  .resultado.on{display:block}
+  .resultado .nota{font-size:2.4rem;color:var(--verde);font-weight:800}
+  .codigo{font-size:1.6rem;letter-spacing:3px;color:var(--ambar);font-weight:800;margin:10px 0;
+    background:#2a2205;border:1px dashed var(--ambar);border-radius:10px;padding:8px}
+  .painelsave{position:fixed;bottom:0;left:0;right:0;background:#081628;border-top:1px solid var(--borda);
+    padding:8px 14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;font-size:.82rem;z-index:50}
+  .painelsave span{color:var(--suave)}
+  .rod{text-align:center;color:var(--suave);font-size:.85rem;margin:24px 0}
+  .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:100}
+  .modal-bg.on{display:flex}
+  .modal{background:var(--painel);border:1px solid var(--verde);border-radius:14px;padding:22px;max-width:380px;text-align:center}
+  .modal p{margin-bottom:16px}
+</style>
+</head>
+<body>
+<header class="topo">
+  <span class="selo">🔬 LABORATÓRIO DECIMAL · TESTE FINAL</span>
+  <h1>📝 Simulado</h1>
+  <p>Matemática · 6º ano · 29 questões no estilo da Prova 2 (15/10)</p>
+</header>
+
+<div class="wrap">
+  <nav class="abas">
+    <a href="index.html">🏠 Início</a>
+    <a href="leitura-estendida.html">📖 Leitura Estendida</a>
+    <a href="resumo.html">🗺️ Resumo</a>
+    <a href="simulado.html" class="atual">📝 Simulado</a>
+  </nav>
+  <div class="intro">São <strong>29 questões</strong>: a maioria de múltipla escolha e 3 com <strong>afirmativas em números romanos</strong> (I, II, III, IV). Faça as contas no papel, marque uma resposta em cada e clique em <strong>Corrigir</strong> para ver sua nota, o gabarito comentado e o código <strong>SIM</strong> para o responsável.</div>
+
+  <div id="sim"></div>
+
+  <div style="text-align:center;margin:20px 0">
+    <button class="btn verde" onclick="corrigir()">✅ Corrigir simulado</button>
+  </div>
+
+  <div class="resultado" id="resultado">
+    <div>Você acertou</div>
+    <div class="nota" id="nota">0 / 29</div>
+    <div>Código para o responsável:</div>
+    <div class="codigo" id="codigo">SIM-00-XX</div>
+    <div style="color:var(--suave);font-size:.9rem">Role para cima para ver o gabarito comentado (verde = certa).</div>
+  </div>
+
+  <p class="rod">🔬 Laboratório Decimal · Simulado · jovem aprendiz</p>
+</div>
+
+<div class="painelsave">
+  <span id="savestatus">💾 Progresso salvo automaticamente</span>
+  <button class="btn sec" onclick="exportar()">📥 Exportar</button>
+  <button class="btn sec" onclick="document.getElementById('imp').click()">📤 Importar</button>
+  <input type="file" id="imp" style="display:none" accept="application/json" onchange="importar(event)">
+  <button class="btn sec" onclick="zerar()">🗑️ Zerar tudo</button>
+</div>
+
+<div class="modal-bg" id="modalbg"><div class="modal"><p id="modaltxt"></p><button class="btn verde" onclick="fecharModal()">Ok</button></div></div>
+
+<script>
+// tipo "mc": ops[0] é a correta. tipo "roman": mostra 'af' e ops[0] é a combinação correta.
+const QS=[
+ {tp:"mc",t:"Ordens decimais",e:"O número 0,07 representa:",
+  ops:["7 centésimos","7 décimos","7 milésimos","7 unidades"],
+  j:"0,07 tem 2 casas depois da vírgula → centésimos. Em fração: 7/100."},
+ {tp:"mc",t:"Ordens decimais",e:"Quantos centésimos há em 1 décimo?",
+  ops:["10 centésimos","100 centésimos","1 centésimo","1000 centésimos"],
+  j:"Cada ordem vale 10 vezes a de baixo: 1 décimo = 10 centésimos."},
+ {tp:"mc",t:"Fração decimal",e:"A fração decimal correspondente a 0,125 é:",
+  ops:["125/1000","125/100","125/10","1250/1000"],
+  j:"São 3 casas depois da vírgula → 3 zeros no denominador → 125/1000."},
+ {tp:"mc",t:"Escrita de decimais",e:"O número \"quatro inteiros e três décimos\" escreve-se:",
+  ops:["4,3","4,03","4,003","43,0"],
+  j:"Décimos = 1 casa depois da vírgula → 4,3."},
+ {tp:"mc",t:"Decimais no dia a dia",e:"Uma pessoa mede 1,18 m. Isso equivale a 1 metro e:",
+  ops:["18 centímetros","18 milímetros","18 metros","1,8 centímetros"],
+  j:"Cada centésimo do metro é 1 cm; 0,18 m = 18 cm."},
+ {tp:"mc",t:"Leitura de decimais",e:"O número 3,05 lê-se:",
+  ops:["três inteiros e cinco centésimos","três inteiros e cinco décimos","trinta e cinco centésimos","três inteiros e cinco milésimos"],
+  j:"São 2 casas depois da vírgula → centésimos: três inteiros e cinco centésimos."},
+ {tp:"mc",t:"Comparação",e:"Qual destes números é o MAIOR?",
+  ops:["0,7","0,68","0,09","0,599"],
+  j:"Igualando as casas: 0,700 ; 0,680 ; 0,090 ; 0,599. O maior é 0,700 (0,7)."},
+ {tp:"mc",t:"Decimais equivalentes",e:"Os números 0,5 ; 0,50 e 0,500 são:",
+  ops:["todos iguais","todos diferentes","dois iguais e um diferente","números crescentes"],
+  j:"Zeros à direita depois da vírgula não mudam o valor: 0,5 = 0,50 = 0,500."},
+ {tp:"mc",t:"Ordenação",e:"Em ordem crescente, a sequência correta é:",
+  ops:["0,25 < 0,3 < 0,305","0,3 < 0,25 < 0,305","0,305 < 0,3 < 0,25","0,25 < 0,305 < 0,3"],
+  j:"Igualando as casas: 0,250 ; 0,300 ; 0,305 → 0,25 < 0,3 < 0,305."},
+ {tp:"mc",t:"Arredondamento",e:"Arredondando 7,83 para os décimos, obtemos:",
+  ops:["7,8","7,9","8,0","7,83"],
+  j:"O algarismo seguinte é 3 (menor que 5), então mantém o 8: 7,8."},
+ {tp:"mc",t:"Arredondamento",e:"Arredondando 3,475 para os centésimos, obtemos:",
+  ops:["3,48","3,47","3,50","3,4"],
+  j:"O algarismo seguinte é 5 (5 ou mais), então sobe: 3,48."},
+ {tp:"mc",t:"Arredondamento",e:"Arredondando 1,85 para o inteiro mais próximo, obtemos:",
+  ops:["2","1","1,9","1,8"],
+  j:"A casa dos décimos é 8 (5 ou mais), então sobe: 1,85 → 2."},
+ {tp:"mc",t:"Arredondamento",e:"Guilherme pagou R$ 26,97 e R$ 37,15. Arredondando cada valor ao real e somando, o total aproximado é:",
+  ops:["R$ 64,00","R$ 63,00","R$ 62,00","R$ 65,00"],
+  j:"26,97 → 27 e 37,15 → 37. Soma: 27 + 37 = 64."},
+ {tp:"mc",t:"Adição",e:"O resultado de 3,5 + 4,76 é:",
+  ops:["8,26","7,26","8,16","82,6"],
+  j:"Igualando as casas: 3,50 + 4,76 = 8,26."},
+ {tp:"mc",t:"Adição",e:"Uma criança tinha, no cofrinho, R$ 12,00 + R$ 8,50 + R$ 9,75 + R$ 4,60 + R$ 3,15. O total é:",
+  ops:["R$ 38,00","R$ 37,00","R$ 38,50","R$ 36,00"],
+  j:"12 + 8,50 + 9,75 + 4,60 + 3,15 = 38,00."},
+ {tp:"mc",t:"Subtração",e:"Nair tem 0,148 kg de farinha e precisa de 0,2 kg. Falta:",
+  ops:["0,052 kg","0,148 kg","0,52 kg","0,352 kg"],
+  j:"0,200 − 0,148 = 0,052 kg."},
+ {tp:"mc",t:"Subtração",e:"Paguei R$ 67,81 com uma nota de R$ 100,00. O troco é:",
+  ops:["R$ 32,19","R$ 33,19","R$ 32,29","R$ 42,19"],
+  j:"100,00 − 67,81 = 32,19."},
+ {tp:"mc",t:"Subtração",e:"A diferença de altura entre 1,52 m e 1,43 m é:",
+  ops:["9 cm","10 cm","8 cm","19 cm"],
+  j:"1,52 − 1,43 = 0,09 m = 9 cm."},
+ {tp:"mc",t:"Multiplicação",e:"Comprando 3 cadernos de R$ 8,90 cada, o total é:",
+  ops:["R$ 26,70","R$ 24,70","R$ 26,07","R$ 2,67"],
+  j:"8,90 × 3 = 26,70 (o produto mantém as 2 casas do fator decimal)."},
+ {tp:"mc",t:"Multiplicação",e:"O resultado de 4,2 × 3 é:",
+  ops:["12,6","1,26","126","12,06"],
+  j:"42 × 3 = 126; o fator decimal tem 1 casa → 12,6."},
+ {tp:"mc",t:"Multiplicação",e:"Uma cozinha retangular tem 6,5 m por 8,8 m. A área é:",
+  ops:["57,2 m²","30,6 m²","15,3 m²","77,44 m²"],
+  j:"6,5 × 8,8 = 57,2 m² (1 + 1 = 2 casas; 65 × 88 = 5720 → 57,20)."},
+ {tp:"mc",t:"Multiplicação",e:"O resultado de 0,4 × 0,3 é:",
+  ops:["0,12","1,2","0,7","12"],
+  j:"4 × 3 = 12; soma das casas 1 + 1 = 2 → 0,12. (Multiplicar por número menor que 1 dá resultado menor.)"},
+ {tp:"mc",t:"Divisão",e:"O resultado de 3 ÷ 4 é:",
+  ops:["0,75","0,34","1,33","0,7"],
+  j:"3 ÷ 4 = 0,75 (troca-se o resto por décimos e continua a divisão)."},
+ {tp:"mc",t:"Divisão",e:"Uma compra de R$ 289,00 foi dividida em 4 parcelas iguais. Cada parcela é:",
+  ops:["R$ 72,25","R$ 72,00","R$ 73,25","R$ 70,25"],
+  j:"289 ÷ 4 = 72,25."},
+ {tp:"mc",t:"Divisão",e:"O resultado de 3,6 ÷ 1,2 é:",
+  ops:["3","0,3","30","3,6"],
+  j:"Multiplicando os dois por 10: 36 ÷ 12 = 3."},
+ {tp:"mc",t:"Divisão",e:"Larissa deu 5 voltas numa pista e percorreu 12 km no total. Cada volta tem:",
+  ops:["2,4 km","2,2 km","2,1 km","2,0 km"],
+  j:"12 ÷ 5 = 2,4 km."},
+
+ {tp:"roman",t:"Ordens e comparação",e:"Analise as afirmativas sobre os números decimais:",
+  af:["I. No número 0,1, o algarismo 1 ocupa a casa dos décimos.","II. 1 décimo é igual a 10 centésimos.","III. O número 0,25 tem 2 casas depois da vírgula (centésimos).","IV. 0,5 é menor que 0,05."],
+  ops:["Apenas I, II e III estão corretas.","Apenas I e IV estão corretas.","Apenas II e III estão corretas.","Todas as afirmativas estão corretas."],
+  j:"I, II e III estão certas. IV é FALSA: 0,5 (= 0,50) é MAIOR que 0,05."},
+ {tp:"roman",t:"Operações",e:"Analise as afirmativas sobre as operações com decimais:",
+  af:["I. Na adição de decimais, alinhamos vírgula embaixo de vírgula.","II. Na multiplicação de decimal por decimal, somamos o número de casas dos dois fatores.","III. Multiplicar um número por 0,5 sempre aumenta esse número.","IV. Em 3 ÷ 4, o resultado é 0,75."],
+  ops:["Apenas I, II e IV estão corretas.","Apenas I e II estão corretas.","Apenas III e IV estão corretas.","Todas as afirmativas estão corretas."],
+  j:"I, II e IV estão certas. III é FALSA: multiplicar por 0,5 (menor que 1) DIMINUI o número."},
+ {tp:"roman",t:"Arredondamento e divisão",e:"Analise as afirmativas:",
+  af:["I. Para arredondar, olhamos o primeiro algarismo depois da ordem que vamos manter.","II. Se esse algarismo for 5 ou mais, somamos 1 à ordem mantida.","III. Na divisão de decimal por decimal, multiplicamos só o dividendo por 10.","IV. 7,83 arredondado aos décimos é 7,8."],
+  ops:["Apenas I, II e IV estão corretas.","Apenas II e IV estão corretas.","Apenas I e III estão corretas.","Todas as afirmativas estão corretas."],
+  j:"I, II e IV estão certas. III é FALSA: multiplicamos o dividendo E o divisor pelo mesmo número."}
+];
+
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+let ordem=[];
+function montaOrdem(){ordem=[];QS.forEach((q,i)=>{const rnd=mulberry32(1+i*37);let idx=q.ops.map((_,k)=>k);
+  for(let k=idx.length-1;k>0;k--){const j=Math.floor(rnd()*(k+1));[idx[k],idx[j]]=[idx[j],idx[k]];}ordem.push(idx);});}
+
+const KEY="laboratoriodecimal_simulado_v1";
+let resp={},corrigido=false,reserva={};
+function salvar(){try{localStorage.setItem(KEY,JSON.stringify({resp,corrigido}));}catch(e){reserva={resp,corrigido};}
+  const s=document.getElementById('savestatus');if(s)s.textContent="💾 Salvo "+new Date().toLocaleString('pt-BR');}
+function carregar(){try{const r=localStorage.getItem(KEY);if(r){const d=JSON.parse(r);resp=d.resp||{};corrigido=d.corrigido||false;}}catch(e){resp=reserva.resp||{};corrigido=reserva.corrigido||false;}}
+function getCode(){try{return localStorage.getItem(KEY+"_code");}catch(e){return null;}}
+
+function render(){
+  const cont=document.getElementById('sim');cont.innerHTML='';
+  QS.forEach((q,i)=>{
+    const div=document.createElement('div');div.className='q';
+    let html=`<span class="top">${q.t}</span><span class="num">QUESTÃO ${i+1} de ${QS.length}</span><h3>${q.e}</h3>`;
+    if(q.tp==="roman"){html+='<div class="romanos">'+q.af.map(a=>`<div>${a}</div>`).join('')+'</div>';}
+    ordem[i].forEach((optIdx,pos)=>{
+      const letra=String.fromCharCode(97+pos);let cls='op';
+      if(resp[i]===optIdx)cls+=' sel';
+      if(corrigido){if(optIdx===0)cls+=' certa';else if(resp[i]===optIdx)cls+=' errada';}
+      html+=`<div class="${cls}" onclick="escolher(${i},${optIdx})"><span class="letra">${letra})</span>${q.ops[optIdx]}</div>`;
+    });
+    html+=`<div class="just${corrigido?' on':''}">💡 ${q.j}</div>`;
+    div.innerHTML=html;cont.appendChild(div);
+  });
+}
+function escolher(i,o){if(corrigido)return;resp[i]=o;salvar();render();}
+function gerarCodigo(ac){const L="ABCDEFGHJKLMNPQRSTUVWXYZ";const a=L[Math.floor(Math.random()*L.length)],b=L[Math.floor(Math.random()*L.length)];return "SIM-"+String(ac).padStart(2,'0')+"-"+a+b;}
+function corrigir(){
+  if(Object.keys(resp).length<QS.length){modal('Responda todas as '+QS.length+' questões antes de corrigir. 🙂');return;}
+  corrigido=true;let ac=0;QS.forEach((q,i)=>{if(resp[i]===0)ac++;});
+  let cod=getCode();if(!cod){cod=gerarCodigo(ac);try{localStorage.setItem(KEY+"_code",cod);}catch(e){}}
+  document.getElementById('nota').textContent=ac+" / "+QS.length;
+  document.getElementById('codigo').textContent=cod;
+  document.getElementById('resultado').classList.add('on');salvar();render();
+  setTimeout(()=>{document.getElementById('resultado').scrollIntoView({behavior:'smooth'});},60);
+}
+function exportar(){let ac=0;QS.forEach((q,i)=>{if(resp[i]===0)ac++;});
+  const dados={kit:"Laboratorio Decimal - Simulado 6o ano",quando:new Date().toISOString(),acertos:corrigido?ac:null,total:QS.length,codigo:getCode(),respostas:resp};
+  const blob=new Blob([JSON.stringify(dados,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='simulado_laboratorio-decimal.json';a.click();}
+function importar(ev){const f=ev.target.files[0];if(!f)return;const r=new FileReader();
+  r.onload=()=>{try{const d=JSON.parse(r.result);if(d.respostas){resp=d.respostas;corrigido=true;salvar();render();corrigir();}}catch(e){modal('Não consegui ler esse arquivo. 😕');}};r.readAsText(f);}
+function zerar(){resp={};corrigido=false;try{localStorage.removeItem(KEY);localStorage.removeItem(KEY+"_code");}catch(e){}reserva={};
+  document.getElementById('resultado').classList.remove('on');render();salvar();modal('Simulado zerado! 🔬');}
+function modal(t){document.getElementById('modaltxt').textContent=t;document.getElementById('modalbg').classList.add('on');}
+function fecharModal(){document.getElementById('modalbg').classList.remove('on');}
+montaOrdem();carregar();render();salvar();if(corrigido)corrigir();
+</script>
+</body>
+</html>

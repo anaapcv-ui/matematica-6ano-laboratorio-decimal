@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leitura Estendida · Laboratório Decimal · Matemática 6º ano</title>
+<style>
+  :root{
+    --cosmos:#0e1a2b; --cosmos2:#13233b; --painel:#13233b; --painel2:#1b3252;
+    --verde:#3ddc84; --roxo:#38bdf8; --ambar:#fbbf24; --texto:#eaf2ff; --suave:#aebfd8;
+    --erro:#ff6b6b; --borda:#274063;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:
+    radial-gradient(900px 500px at 15% -10%, #16304f 0%, transparent 60%),
+    radial-gradient(800px 500px at 110% 10%, #10303a 0%, transparent 55%),
+    #0e1a2b;color:var(--texto);line-height:1.6;padding-bottom:60px}
+  header.topo{background:linear-gradient(120deg,#0e1a2b,#13233b);border-bottom:3px solid var(--verde);
+    padding:22px 16px;text-align:center;box-shadow:0 6px 24px rgba(0,0,0,.4)}
+  header.topo .selo{display:inline-block;background:rgba(61,220,132,.14);color:var(--verde);
+    border:1px solid var(--verde);border-radius:20px;padding:4px 14px;font-size:.8rem;letter-spacing:1px;margin-bottom:10px}
+  header.topo h1{font-size:1.7rem;color:#fff}
+  header.topo p{color:var(--suave);font-size:.95rem;margin-top:6px}
+  .wrap{max-width:860px;margin:0 auto;padding:0 16px}
+  nav.abas{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:18px 0}
+  nav.abas a{background:var(--painel);border:1px solid var(--borda);color:var(--suave);
+    text-decoration:none;padding:8px 14px;border-radius:10px;font-size:.88rem;transition:.2s}
+  nav.abas a:hover{border-color:var(--verde);color:#fff}
+  nav.abas a.atual{background:var(--verde);color:#06240f;font-weight:700;border-color:var(--verde)}
+  .intro{background:var(--painel);border:1px solid var(--borda);border-radius:14px;padding:18px;margin:16px 0}
+  .intro h2{color:var(--verde);font-size:1.15rem;margin-bottom:8px}
+  .intro ol{margin-left:20px;color:var(--suave)}
+  .bloco{background:var(--painel);border:1px solid var(--borda);border-left:5px solid var(--roxo);
+    border-radius:14px;padding:20px;margin:18px 0;box-shadow:0 4px 16px rgba(0,0,0,.25)}
+  .bloco.travado{opacity:.5;filter:grayscale(.4)}
+  .bloco .setor{display:inline-block;background:rgba(56,189,248,.16);color:var(--roxo);
+    border:1px solid var(--roxo);border-radius:8px;padding:3px 10px;font-size:.78rem;margin-bottom:10px}
+  .bloco h3{color:#fff;font-size:1.3rem;margin-bottom:12px}
+  .bloco .texto p{margin:10px 0;color:#e7f0ff}
+  .bloco .texto strong{color:var(--ambar)}
+  .ex{background:#0c2036;border:1px solid var(--borda);border-radius:10px;padding:12px 14px;margin:12px 0;color:#dfeaff}
+  .ex b{color:var(--verde)}
+  .cadeado{text-align:center;color:var(--suave);padding:26px;font-size:1rem}
+  .pergunta{margin:16px 0;padding:14px;background:#0c2036;border:1px solid var(--borda);border-radius:10px}
+  .pergunta.verm{border-color:var(--erro);background:#2a1420}
+  .pergunta .tag{font-size:.72rem;letter-spacing:.5px;padding:2px 8px;border-radius:6px;margin-left:6px}
+  .tag.conc{background:rgba(251,191,36,.14);color:var(--ambar);border:1px solid var(--ambar)}
+  .tag.apl{background:rgba(61,220,132,.14);color:var(--verde);border:1px solid var(--verde)}
+  .pergunta label{display:block;font-weight:600;margin-bottom:8px;color:#fff}
+  .pergunta textarea{width:100%;min-height:70px;background:#081628;border:1px solid var(--borda);
+    border-radius:8px;color:var(--texto);padding:10px;font-size:.95rem;resize:vertical;font-family:inherit}
+  .pergunta textarea:focus{outline:none;border-color:var(--verde)}
+  .aviso{margin-top:8px;padding:10px;border-radius:8px;font-size:.9rem;display:none}
+  .aviso.amarelo{display:block;background:rgba(251,191,36,.12);border:1px solid var(--ambar);color:#ffe9a6}
+  .aviso.vermelho{display:block;background:rgba(255,107,107,.12);border:1px solid var(--erro);color:#ffc2c2}
+  .modelo{margin-top:10px;padding:10px;background:rgba(61,220,132,.08);border:1px dashed var(--verde);border-radius:8px;display:none}
+  .modelo.on{display:block}
+  .modelo .mt{color:var(--verde);font-weight:700;font-size:.85rem;margin-bottom:4px}
+  .chk{margin-top:10px;display:none}
+  .chk.on{display:block}
+  .chk .cit{margin:7px 0;font-size:.9rem;color:#e7f0ff}
+  .chk .btns{display:inline-flex;gap:6px;margin-left:8px;vertical-align:middle}
+  .chk button{border:1px solid var(--borda);background:#0c2036;color:var(--suave);border-radius:7px;
+    padding:3px 12px;cursor:pointer;font-size:.82rem}
+  .chk button.sim.on{background:var(--verde);color:#06240f;border-color:var(--verde);font-weight:700}
+  .chk button.nao.on{background:var(--erro);color:#2a0a0a;border-color:var(--erro);font-weight:700}
+  .btn{background:var(--verde);color:#06240f;border:none;border-radius:10px;padding:11px 20px;
+    font-size:.95rem;font-weight:700;cursor:pointer;transition:.2s}
+  .btn:hover{filter:brightness(1.08)}
+  .btn.sec{background:transparent;color:var(--suave);border:1px solid var(--borda)}
+  .status{margin-top:12px;font-weight:700;display:none}
+  .status.ok{display:block;color:var(--verde)}
+  .status.rev{display:block;color:var(--ambar)}
+  .proximo{display:none;margin-top:14px}
+  .proximo.on{display:block}
+  .painelsave{position:fixed;bottom:0;left:0;right:0;background:#081628;border-top:1px solid var(--borda);
+    padding:8px 14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;font-size:.82rem;z-index:50}
+  .painelsave span{color:var(--suave)}
+  .painelsave button{font-size:.8rem;padding:6px 12px}
+  .pegadinhas{background:#2a2205;border:1px solid var(--ambar);border-radius:14px;padding:18px;margin:20px 0}
+  .pegadinhas h2{color:var(--ambar);margin-bottom:10px}
+  .pegadinhas ol{margin-left:20px}
+  .pegadinhas li{margin:7px 0}
+  table.cob{width:100%;border-collapse:collapse;margin:14px 0;background:var(--painel);border-radius:10px;overflow:hidden}
+  table.cob th,table.cob td{border:1px solid var(--borda);padding:9px 12px;text-align:left;font-size:.9rem}
+  table.cob th{background:var(--painel2);color:var(--verde)}
+  .revisar{background:#2a1420;border:1px solid var(--erro);border-radius:14px;padding:16px;margin:18px 0;display:none}
+  .revisar.on{display:block}
+  .revisar h2{color:var(--erro);margin-bottom:8px}
+  .rod{text-align:center;color:var(--suave);font-size:.85rem;margin:24px 0}
+  .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:100}
+  .modal-bg.on{display:flex}
+  .modal{background:var(--painel);border:1px solid var(--verde);border-radius:14px;padding:22px;max-width:380px;text-align:center}
+  .modal p{margin-bottom:16px}
+</style>
+</head>
+<body>
+<header class="topo">
+  <span class="selo">🔬 LABORATÓRIO DECIMAL · BANCADA DE LEITURA</span>
+  <h1>Leitura Estendida</h1>
+  <p>Matemática · 6º ano · Prova 2 (15/10) — Números decimais: representação, leitura, comparação, arredondamento e as 4 operações</p>
+</header>
+
+<div class="wrap">
+  <nav class="abas">
+    <a href="index.html">🏠 Início</a>
+    <a href="leitura-estendida.html" class="atual">📖 Leitura Estendida</a>
+    <a href="resumo.html">🗺️ Resumo</a>
+    <a href="simulado.html">📝 Simulado</a>
+  </nav>
+
+  <div class="intro">
+    <h2>Como funciona esta missão</h2>
+    <ol>
+      <li>Leia o texto e o exemplo resolvido de cada <strong>estação do laboratório</strong>.</li>
+      <li>Responda às <strong>3 perguntas</strong> escrevendo e calculando com as <strong>suas</strong> palavras e contas (sem copiar o texto).</li>
+      <li>Clique em <strong>Conferir</strong>: aparecem a resposta modelo e uma autoavaliação para você checar o que acertou.</li>
+      <li>A próxima estação só abre depois que você confere a anterior. No fim há <strong>pegadinhas</strong> e a tabela de cobertura.</li>
+    </ol>
+  </div>
+
+  <div id="blocos"></div>
+
+  <div class="revisar" id="revisar">
+    <h2>🔁 Para revisar</h2>
+    <p>Estas respostas ficaram marcadas (cópia do texto ou um "não" na autoavaliação). Vale reler a estação e tentar de novo com suas palavras:</p>
+    <ul id="revisar-lista"></ul>
+  </div>
+
+  <div class="pegadinhas">
+    <h2>⚠️ 10 pegadinhas da prova</h2>
+    <ol>
+      <li>Zeros à direita DEPOIS da vírgula não mudam o valor: 0,5 = 0,50 = 0,500. Mas zero no meio MUDA: 0,5 é diferente de 0,05.</li>
+      <li>Na adição e na subtração, é <strong>vírgula embaixo de vírgula</strong>. Não encoste os números pela direita — alinhe pela vírgula.</li>
+      <li>Antes de somar ou subtrair, <strong>complete as casas que faltam com zero</strong> (3,5 vira 3,50 para juntar com 4,76).</li>
+      <li>Na multiplicação NÃO se alinha a vírgula. Multiplique como se não houvesse vírgula e, no fim, conte as casas (soma das casas dos dois fatores).</li>
+      <li>Multiplicar por um número <strong>menor que 1</strong> dá um resultado MENOR (0,4 × 0,3 = 0,12). Isso é normal, não é erro.</li>
+      <li>Na divisão de decimal por decimal, multiplique os <strong>DOIS</strong> (dividendo e divisor) pelo mesmo número (10, 100…). Mexer só em um muda a resposta.</li>
+      <li>Para arredondar, olhe só o <strong>primeiro</strong> algarismo depois da ordem que vai manter: 5 ou mais → sobe 1; menos que 5 → fica igual.</li>
+      <li>Trocas de unidade: 1 cm = 0,01 m; 1 mm = 0,1 cm; 1 m = 0,001 km. Não confunda.</li>
+      <li>Para comparar, <strong>iguale as casas</strong> (0,8 = 0,80) antes de dizer quem é maior. 0,8 é MAIOR que 0,75.</li>
+      <li>Uma dízima periódica (0,333…) tem infinitas casas. Curiosidade: 0,333… + 0,666… = 0,999… = 1 (número inteiro).</li>
+    </ol>
+  </div>
+
+  <h2 style="color:var(--verde);margin:18px 0 6px">✅ Tabela de cobertura — Tópico → Estação</h2>
+  <table class="cob">
+    <tr><th>Tópico da prova</th><th>Estação do laboratório</th></tr>
+    <tr><td>Representação decimal e ordens (décimo, centésimo, milésimo)</td><td>Estação 1 — Lente de Aumento</td></tr>
+    <tr><td>Fração decimal e leitura/escrita dos decimais</td><td>Estação 2 — Painel de Leitura</td></tr>
+    <tr><td>Decimais equivalentes, comparar e ordenar</td><td>Estação 3 — Balança de Comparação</td></tr>
+    <tr><td>Arredondamento de números decimais</td><td>Estação 4 — Ajuste Fino</td></tr>
+    <tr><td>Adição e subtração de decimais</td><td>Estação 5 — Reator de Soma e Resto</td></tr>
+    <tr><td>Multiplicação de decimais</td><td>Estação 6 — Câmara de Produtos</td></tr>
+    <tr><td>Divisão de decimais</td><td>Estação 7 — Centrífuga de Partilha</td></tr>
+  </table>
+
+  <p class="rod">🔬 Laboratório Decimal · Leitura Estendida · feito para você, jovem aprendiz</p>
+</div>
+
+<div class="painelsave">
+  <span id="savestatus">💾 Progresso salvo automaticamente</span>
+  <button class="btn sec" onclick="exportar()">📥 Exportar</button>
+  <button class="btn sec" onclick="document.getElementById('imp').click()">📤 Importar</button>
+  <input type="file" id="imp" style="display:none" accept="application/json" onchange="importar(event)">
+  <button class="btn sec" onclick="zerar()">🗑️ Zerar tudo</button>
+</div>
+
+<div class="modal-bg" id="modalbg">
+  <div class="modal">
+    <p id="modaltxt"></p>
+    <button class="btn" onclick="fecharModal()">Ok</button>
+  </div>
+</div>
+
+<script>
+// ===== Dados das estações (conteúdo do livro: Callis Matemática 6 - Livro 2) =====
+const BLOCOS = [
+ {
+  setor:"Estação 1 — Lente de Aumento", titulo:"🔍 Representação decimal e as ordens",
+  texto:`<p>Pense no <strong>cubo grande</strong> do material dourado como <strong>1 unidade inteira</strong>. Se a gente corta esse cubo em <strong>10 fatias iguais</strong>, cada fatia é <strong>1 décimo</strong> (escrevemos 0,1).</p>
+  <p>Se pegamos 1 décimo e cortamos de novo em 10 partes iguais, cada pedacinho vira <strong>1 centésimo</strong> (0,01). Cortando 1 centésimo em 10, chegamos ao <strong>1 milésimo</strong> (0,001). É como usar uma lente de aumento: cada vez que aproximamos, aparecem 10 pedaços menores.</p>
+  <p>Por isso, valem estas trocas: <strong>1 unidade = 10 décimos</strong>; <strong>1 décimo = 10 centésimos</strong>; <strong>1 centésimo = 10 milésimos</strong>.</p>
+  <p>No dia a dia a gente vê isso: na régua, <strong>1 milímetro = 1 décimo de 1 cm</strong>; no dinheiro, <strong>1 centavo = 1 centésimo de 1 real</strong> (100 centavos formam 1 real); e <strong>1 cm = 0,01 m</strong>.</p>
+  <div class="ex"><b>Exemplo:</b> quanto vale 1 décimo somado a 1 centésimo? → 0,1 + 0,01 = <b>0,11</b>. E dentro de 1 décimo cabem <b>10</b> centésimos.</div>`,
+  perguntas:[
+   {tipo:"conc", enun:"Com suas palavras: qual é a relação entre décimo, centésimo e milésimo? (Quantos de um cabem no outro?)",
+    modelo:"Cada ordem vale 10 vezes a de baixo: 1 décimo = 10 centésimos e 1 centésimo = 10 milésimos. Também: 1 unidade = 10 décimos.",
+    chk:["Disse que 1 décimo tem 10 centésimos?","Disse que 1 centésimo tem 10 milésimos?"]},
+   {tipo:"apl", enun:"Escreva em número decimal: (a) 3 décimos  (b) 7 centésimos  (c) 5 milésimos.",
+    modelo:"(a) 0,3  (b) 0,07  (c) 0,005. Repare na quantidade de casas: décimo = 1 casa, centésimo = 2 casas, milésimo = 3 casas.",
+    chk:["Escreveu 0,3 para 3 décimos?","Escreveu 0,07 e 0,005 nas casas certas?"]},
+   {tipo:"apl", enun:"Numa régua, 1 cm está dividido em 10 partes iguais (os milímetros). Que decimal de 1 cm vale 1 mm? Explique com suas palavras por quê.",
+    modelo:"1 mm = 0,1 cm (um décimo de centímetro), porque o centímetro foi dividido em 10 partes iguais e cada parte é um décimo.",
+    chk:["Disse que 1 mm = 0,1 cm (um décimo)?","Explicou que é porque o cm tem 10 partes iguais?"]}
+  ]
+ },
+ {
+  setor:"Estação 2 — Painel de Leitura", titulo:"🔢 Fração decimal e leitura dos decimais",
+  texto:`<p>Uma <strong>fração decimal</strong> é aquela cujo denominador é 10, 100, 1000… Existe um truque: a <strong>quantidade de zeros do denominador é igual à quantidade de algarismos depois da vírgula</strong>.</p>
+  <p>Veja: 0,3 = 3/10 (1 casa → 1 zero); 0,07 = 7/100 (2 casas → 2 zeros); 0,125 = 125/1000 (3 casas → 3 zeros).</p>
+  <p>Para <strong>ler</strong> um número decimal, dizemos a parte inteira com a palavra "inteiros" e a parte depois da vírgula pela sua última ordem. Assim, <strong>4,275</strong> lê-se "4 inteiros e 275 milésimos" (ou "4 unidades, 2 décimos, 7 centésimos e 5 milésimos"). E <strong>3,01</strong> lê-se "3 inteiros e 1 centésimo".</p>
+  <div class="ex"><b>Exemplo:</b> 428,341 lê-se "<b>quatrocentos e vinte e oito inteiros e trezentos e quarenta e um milésimos</b>" (são 3 casas → milésimos).</div>`,
+  perguntas:[
+   {tipo:"conc", enun:"Olhando um número com vírgula, como você descobre o denominador (10, 100 ou 1000) da fração decimal dele?",
+    modelo:"Conto quantos algarismos há depois da vírgula: a quantidade de zeros do denominador é igual a esse número. 1 casa → 10; 2 casas → 100; 3 casas → 1000.",
+    chk:["Ligou a quantidade de casas decimais ao número de zeros?","Deu a ideia 1 casa=10, 2 casas=100, 3 casas=1000?"]},
+   {tipo:"apl", enun:"Escreva na forma de fração decimal: (a) 0,9  (b) 0,45  (c) 0,018.",
+    modelo:"(a) 9/10  (b) 45/100  (c) 18/1000. O número de zeros embaixo é igual ao número de casas depois da vírgula.",
+    chk:["Escreveu 0,9 = 9/10?","Escreveu 0,45 = 45/100 e 0,018 = 18/1000?"]},
+   {tipo:"apl", enun:"Escreva por extenso (como se lê) os números 12,07 e 5,4.",
+    modelo:"12,07 = \"doze inteiros e sete centésimos\" (2 casas → centésimos). 5,4 = \"cinco inteiros e quatro décimos\" (1 casa → décimos).",
+    chk:["Leu 12,07 como \"doze inteiros e sete centésimos\"?","Leu 5,4 como \"cinco inteiros e quatro décimos\"?"]}
+  ]
+ },
+ {
+  setor:"Estação 3 — Balança de Comparação", titulo:"⚖️ Decimais iguais, comparar e ordenar",
+  texto:`<p>Acrescentar <strong>zeros à direita depois da vírgula não muda o valor</strong>: 4,1 = 4,10 = 4,100 = 4,1000. É como pesar a mesma coisa em balanças diferentes — o número de casas muda, a quantidade não.</p>
+  <p>Para <strong>comparar</strong> números decimais, há dois caminhos: (1) transformar todos na <strong>mesma unidade</strong> (por exemplo, kg em g, lembrando que 1 kg = 1000 g); ou (2) <strong>igualar o número de casas decimais</strong>, completando com zeros, e aí comparar algarismo por algarismo, como se fossem inteiros.</p>
+  <div class="ex"><b>Exemplo:</b> comparar 1,2 kg; 1,16 kg; 1,174 kg. Igualando as casas: 1,<b>200</b> ; 1,<b>160</b> ; 1,<b>174</b>. Em ordem crescente: 1,16 &lt; 1,174 &lt; 1,2. Logo a maior massa é a de 1,2 kg e a menor é a de 1,16 kg.</div>`,
+  perguntas:[
+   {tipo:"conc", enun:"Por que 0,5 e 0,50 representam a mesma quantidade? Explique com suas palavras.",
+    modelo:"Porque acrescentar zeros à direita depois da vírgula não muda o valor: 0,5 é 5 décimos e 0,50 é 50 centésimos, que é a mesma quantidade.",
+    chk:["Disse que zeros à direita depois da vírgula não mudam o valor?","Ligou 0,5 a 0,50 (5 décimos = 50 centésimos)?"]},
+   {tipo:"apl", enun:"Coloque em ordem crescente: 0,8 ; 0,75 ; 0,805. (Dica: iguale as casas decimais primeiro.)",
+    modelo:"Igualando as casas: 0,800 ; 0,750 ; 0,805. Em ordem crescente: 0,75 < 0,8 < 0,805.",
+    chk:["Igualou as casas (0,800 ; 0,750 ; 0,805)?","Chegou à ordem 0,75 < 0,8 < 0,805?"]},
+   {tipo:"apl", enun:"Dois pacotes de arroz: um com 1,2 kg e outro com 1,15 kg. Qual é o mais pesado? Mostre como você comparou.",
+    modelo:"Igualando as casas: 1,20 kg e 1,15 kg. Como 1,20 > 1,15, o pacote de 1,2 kg é o mais pesado.",
+    chk:["Disse que o pacote de 1,2 kg é o mais pesado?","Mostrou a comparação igualando as casas (1,20 x 1,15)?"]}
+  ]
+ },
+ {
+  setor:"Estação 4 — Ajuste Fino", titulo:"🎚️ Arredondamento de decimais",
+  texto:`<p>Arredondar é deixar o número com <strong>menos casas depois da vírgula</strong>, chegando a um valor próximo. Serve, por exemplo, para dar um troco ou estimar uma medida.</p>
+  <p>O jeito é: primeiro você <strong>escolhe a ordem que quer manter</strong> (décimos, centésimos, inteiro…). Depois olha o <strong>primeiro algarismo logo depois</strong> dessa ordem:</p>
+  <p>• Se esse algarismo for <strong>menor que 5</strong>, o número da ordem a manter <strong>fica igual</strong>.<br>
+  • Se for <strong>5 ou mais</strong>, <strong>soma 1</strong> ao número da ordem a manter.</p>
+  <div class="ex"><b>Exemplos:</b> arredondar 7,83 para os décimos → o algarismo seguinte é 3 (menor que 5) → fica <b>7,8</b>. Arredondar 3,475 para os centésimos → o seguinte é 5 (5 ou mais) → sobe → <b>3,48</b>. Arredondar ao inteiro: 1,48 → <b>1</b> e 1,85 → <b>2</b>.</div>`,
+  perguntas:[
+   {tipo:"conc", enun:"Qual é a regra para arredondar? Diga o que acontece quando o algarismo seguinte é menor que 5 e quando é 5 ou mais.",
+    modelo:"Olho o primeiro algarismo depois da ordem que vou manter: se for menor que 5, mantenho o algarismo; se for 5 ou mais, somo 1 ao algarismo e tiro o resto.",
+    chk:["Disse que menor que 5 mantém o algarismo?","Disse que 5 ou mais soma 1?"]},
+   {tipo:"apl", enun:"Arredonde para os décimos: (a) 6,42  (b) 6,47.",
+    modelo:"(a) 6,42 → 6,4 (o seguinte é 2, menor que 5). (b) 6,47 → 6,5 (o seguinte é 7, que é 5 ou mais, então sobe).",
+    chk:["6,42 → 6,4?","6,47 → 6,5?"]},
+   {tipo:"apl", enun:"Um produto custa R$ 19,70. Arredonde esse preço para o real (inteiro) mais próximo e explique seu raciocínio.",
+    modelo:"A casa dos décimos é 7, que é 5 ou mais, então subo: R$ 19,70 arredondado ao inteiro fica R$ 20,00.",
+    chk:["Arredondou para R$ 20,00?","Explicou que o 7 é 5 ou mais, por isso subiu?"]}
+  ]
+ },
+ {
+  setor:"Estação 5 — Reator de Soma e Resto", titulo:"➕➖ Adição e subtração de decimais",
+  texto:`<p>Somar e subtrair decimais é muito parecido com somar e subtrair números inteiros — só precisamos de alguns cuidados ao armar a conta:</p>
+  <p>1) coloque <strong>vírgula embaixo de vírgula</strong> (inteiro embaixo de inteiro, décimo embaixo de décimo, e assim por diante); 2) <strong>complete com zero</strong> as casas que faltarem; 3) some ou subtraia normalmente e <strong>desça a vírgula</strong> na mesma coluna.</p>
+  <div class="ex"><b>Exemplo (adição):</b> 3,5 + 4,76 → completo: 3,<b>50</b> + 4,76 = <b>8,26</b>.<br>
+  <b>Exemplo (subtração):</b> 0,2 − 0,148 → completo: 0,<b>200</b> − 0,148 = <b>0,052</b>.</div>`,
+  perguntas:[
+   {tipo:"conc", enun:"Qual é o cuidado mais importante ao armar uma conta de adição ou subtração com números decimais?",
+    modelo:"Alinhar a vírgula embaixo da vírgula (cada ordem embaixo da ordem igual) e completar com zero as casas que faltam antes de calcular.",
+    chk:["Falou em vírgula embaixo de vírgula / alinhar as ordens?","Falou em completar com zeros as casas que faltam?"]},
+   {tipo:"apl", enun:"Resolva 12,5 + 3,75. (Dica: iguale as casas.)",
+    modelo:"Completo: 12,50 + 3,75 = 16,25.",
+    chk:["Igualou as casas (12,50)?","Chegou a 16,25?"]},
+   {tipo:"apl", enun:"Você tinha R$ 50,00 e gastou R$ 32,80. Monte a conta e diga quanto sobrou.",
+    modelo:"50,00 − 32,80 = 17,20. Sobrou R$ 17,20.",
+    chk:["Armou 50,00 − 32,80 (vírgula sob vírgula)?","Chegou a R$ 17,20?"]}
+  ]
+ },
+ {
+  setor:"Estação 6 — Câmara de Produtos", titulo:"✖️ Multiplicação de decimais",
+  texto:`<p>Na multiplicação a gente NÃO alinha a vírgula. O segredo é no fim: você <strong>multiplica como se não houvesse vírgula</strong> e depois conta as casas decimais.</p>
+  <p>• <strong>Decimal × número natural:</strong> o resultado tem o <strong>mesmo número de casas</strong> do fator decimal. Ex.: 8,90 × 3 = 26,70 (2 casas).</p>
+  <p>• <strong>Decimal × decimal:</strong> o número de casas do resultado é a <strong>soma</strong> das casas dos dois fatores. Ex.: 2,5 × 1,2 → tem 1 + 1 = 2 casas.</p>
+  <p>Curiosidade importante: multiplicar por um número <strong>menor que 1</strong> dá um resultado MENOR (0,4 × 0,3 = 0,12). Não é erro!</p>
+  <div class="ex"><b>Exemplo:</b> 1,5 × 0,4 → multiplico 15 × 4 = 60; somo as casas (1 + 1 = 2) → <b>0,60 = 0,6</b>.</div>`,
+  perguntas:[
+   {tipo:"conc", enun:"Como você descobre quantas casas depois da vírgula o resultado de uma multiplicação de decimais vai ter?",
+    modelo:"Somo o número de casas decimais dos dois fatores; esse total é a quantidade de casas do resultado. (Se for decimal × natural, fica o mesmo número de casas do decimal.)",
+    chk:["Disse para somar as casas decimais dos dois fatores?","Ligou essa soma ao número de casas do resultado?"]},
+   {tipo:"apl", enun:"Resolva 4,2 × 3.",
+    modelo:"Multiplico 42 × 3 = 126; o fator decimal tem 1 casa → 12,6.",
+    chk:["Multiplicou 42 × 3 = 126?","Colocou 1 casa decimal → 12,6?"]},
+   {tipo:"apl", enun:"Um caderno custa R$ 7,50. Quanto custam 4 cadernos iguais? Mostre a conta.",
+    modelo:"7,50 × 4 = 30,00. Os 4 cadernos custam R$ 30,00.",
+    chk:["Montou 7,50 × 4?","Chegou a R$ 30,00?"]}
+  ]
+ },
+ {
+  setor:"Estação 7 — Centrífuga de Partilha", titulo:"➗ Divisão de decimais",
+  texto:`<p>Há três casos de divisão com decimais:</p>
+  <p>• <strong>Natural ÷ natural</strong> que não dá conta exata: quando sobra resto, a gente <strong>põe a vírgula no quociente</strong> e troca o resto por décimos (acrescenta um zero), e continua dividindo. Ex.: 3 ÷ 4 = 0,75.</p>
+  <p>• <strong>Decimal ÷ natural:</strong> divide normalmente e, no momento de passar da parte inteira para a parte decimal, <strong>coloca a vírgula no quociente</strong>. Ex.: 55,80 ÷ 4 = 13,95.</p>
+  <p>• <strong>Decimal ÷ decimal:</strong> multiplique o <strong>dividendo E o divisor pelo mesmo número</strong> (10, 100…) para os dois virarem naturais, e aí divida. Ex.: 3,6 ÷ 1,2 → vira 36 ÷ 12 = 3.</p>
+  <div class="ex"><b>Exemplo:</b> 2,75 ÷ 2,5 → multiplico os dois por 100 → 275 ÷ 250 = <b>1,1</b>.</div>`,
+  perguntas:[
+   {tipo:"conc", enun:"Na divisão de um decimal por outro decimal (ex.: 3,6 ÷ 1,2), qual é o truque que facilita a conta?",
+    modelo:"Multiplicar o dividendo e o divisor pelo mesmo número (10, 100…) para os dois virarem números naturais; aí basta dividir normal (3,6 ÷ 1,2 vira 36 ÷ 12 = 3).",
+    chk:["Disse para multiplicar os dois pelo mesmo número?","Disse que o objetivo é os dois virarem naturais?"]},
+   {tipo:"apl", enun:"Resolva 9,6 ÷ 4.",
+    modelo:"96 ÷ 4 = 24; colocando a vírgula no quociente → 2,4.",
+    chk:["Dividiu certo (9,6 ÷ 4)?","Chegou a 2,4?"]},
+   {tipo:"apl", enun:"Uma conta de R$ 72,00 foi dividida igualmente entre 5 amigos. Quanto cada um pagou? Mostre a divisão.",
+    modelo:"72 ÷ 5 = 14,4. Cada amigo pagou R$ 14,40.",
+    chk:["Montou 72 ÷ 5?","Chegou a R$ 14,40 por pessoa?"]}
+  ]
+ }
+];
+
+// ===== Armazenamento com try/catch + reserva =====
+const KEY="laboratoriodecimal_leitura_v1";
+let mem={};
+let reserva={};
+function salvar(){
+  try{localStorage.setItem(KEY,JSON.stringify(mem));}catch(e){reserva=JSON.parse(JSON.stringify(mem));}
+  const s=document.getElementById('savestatus');
+  if(s)s.textContent="💾 Salvo "+new Date().toLocaleString('pt-BR');
+}
+function carregar(){
+  try{const r=localStorage.getItem(KEY);if(r)mem=JSON.parse(r);}catch(e){mem=reserva||{};}
+}
+
+// ===== Normalização e detecção de cópia =====
+function norm(s){
+  return (s||"").toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')
+    .replace(/[^a-z0-9\s]/g,' ').replace(/\s+/g,' ').trim();
+}
+function palavras(s){return norm(s).split(' ').filter(Boolean);}
+function detectaCopia(resposta, textoBloco, enunciado){
+  const R=palavras(resposta), Tarr=palavras(textoBloco);
+  const En=palavras(enunciado);
+  const enunSeqs=new Set();
+  for(let n=4;n<=En.length;n++){for(let i=0;i+n<=En.length;i++){enunSeqs.add(En.slice(i,i+n).join(' '));}}
+  const textoStr=' '+Tarr.join(' ')+' ';
+  let maiorSeq=0; const cobertas=new Array(R.length).fill(false);
+  for(let i=0;i<R.length;i++){
+    for(let j=R.length;j>i;j--){
+      const sub=R.slice(i,j);
+      const subStr=sub.join(' ');
+      if(sub.length>=5 && textoStr.includes(' '+subStr+' ')){
+        if(sub.length<=En.length && enunSeqs.has(subStr)) continue;
+        if(sub.length>maiorSeq) maiorSeq=sub.length;
+        for(let k=i;k<j;k++) cobertas[k]=true;
+        break;
+      }
+    }
+  }
+  const palavrasEmSeq=cobertas.filter(Boolean).length;
+  const prop = R.length? palavrasEmSeq/R.length : 0;
+  return (maiorSeq>=8) || (prop>0.6 && R.length>=5);
+}
+
+// ===== Render =====
+function render(){
+  const cont=document.getElementById('blocos'); cont.innerHTML='';
+  BLOCOS.forEach((b,bi)=>{
+    if(!mem['b'+bi]) mem['b'+bi]={resp:["","",""],feito:false,quando:"",chk:[[],[],[]],transc:[false,false,false],tentou:["","",""],tent:[0,0,0]};
+    const st=mem['b'+bi];
+    const travado = bi>0 && !mem['b'+(bi-1)].feito;
+    const div=document.createElement('div');
+    div.className='bloco'+(travado?' travado':'');
+    let html=`<span class="setor">${b.setor}</span><h3>${b.titulo}</h3>`;
+    if(travado){
+      html+=`<div class="cadeado">🔒 Confira a estação anterior para liberar esta.</div>`;
+      div.innerHTML=html; cont.appendChild(div); return;
+    }
+    html+=`<div class="texto">${b.texto}</div>`;
+    b.perguntas.forEach((p,pi)=>{
+      const verm = st.transc[pi];
+      html+=`<div class="pergunta${verm?' verm':''}" id="p${bi}_${pi}">
+        <label>${pi+1}. ${p.enun}<span class="tag ${p.tipo==='conc'?'conc':'apl'}">${p.tipo==='conc'?'conceito':'aplicação'}</span></label>
+        <textarea id="t${bi}_${pi}" oninput="mudou(${bi},${pi})">${(st.resp[pi]||'').replace(/</g,'&lt;')}</textarea>
+        <div class="aviso" id="av${bi}_${pi}"></div>
+        <div class="modelo${st.feito?' on':''}" id="md${bi}_${pi}"><div class="mt">✅ Resposta modelo</div>${p.modelo}</div>
+        <div class="chk${st.feito?' on':''}" id="ck${bi}_${pi}">${chkHtml(b,bi,pi)}</div>
+      </div>`;
+    });
+    html+=`<button class="btn" onclick="conferir(${bi})" id="bt${bi}">${st.feito?'Conferir de novo':'Conferir'}</button>`;
+    html+=`<div class="status ${blocoStatus(bi)==='ok'?'ok':(blocoStatus(bi)==='rev'?'rev':'')}" id="stt${bi}">${blocoStatus(bi)==='ok'?'✅ Estação concluída!':(blocoStatus(bi)==='rev'?'🔁 Reveja os pontos marcados':'')}</div>`;
+    if(bi<BLOCOS.length-1){
+      html+=`<div class="proximo${st.feito?' on':''}" id="px${bi}"><button class="btn sec" onclick="irPara(${bi+1})">➡️ Ir para a próxima estação</button></div>`;
+    }
+    div.innerHTML=html; cont.appendChild(div);
+  });
+  atualizaRevisar();
+}
+function chkHtml(b,bi,pi){
+  const st=mem['b'+bi]; const pontos=b.perguntas[pi].chk;
+  let h='<div class="mt" style="color:var(--ambar);font-size:.85rem;margin-bottom:4px">🔎 Autoavaliação — a minha resposta…</div>';
+  pontos.forEach((c,ci)=>{
+    const v = st.chk[pi] && st.chk[pi][ci];
+    h+=`<div class="cit">${c}
+      <span class="btns">
+        <button class="sim ${v==='sim'?'on':''}" onclick="marcar(${bi},${pi},${ci},'sim')">Sim</button>
+        <button class="nao ${v==='nao'?'on':''}" onclick="marcar(${bi},${pi},${ci},'nao')">Não</button>
+      </span></div>`;
+  });
+  return h;
+}
+function blocoStatus(bi){
+  const st=mem['b'+bi]; if(!st.feito) return '';
+  const b=BLOCOS[bi]; let rev=false;
+  b.perguntas.forEach((p,pi)=>{
+    if(st.transc[pi]) rev=true;
+    (st.chk[pi]||[]).forEach(v=>{if(v==='nao')rev=true;});
+  });
+  return rev?'rev':'ok';
+}
+function mudou(bi,pi){
+  const st=mem['b'+bi]; st.resp[pi]=document.getElementById('t'+bi+'_'+pi).value;
+  if(st.transc[pi]){
+    const b=BLOCOS[bi];
+    if(!detectaCopia(st.resp[pi], b.texto, b.perguntas[pi].enun)){
+      st.transc[pi]=false;
+      const pe=document.getElementById('p'+bi+'_'+pi); if(pe)pe.classList.remove('verm');
+      const av=document.getElementById('av'+bi+'_'+pi); if(av){av.className='aviso';av.textContent='';}
+      atualizaRevisar();
+    }
+  }
+  salvar();
+}
+function marcar(bi,pi,ci,val){
+  const st=mem['b'+bi]; if(!st.chk[pi])st.chk[pi]=[]; st.chk[pi][ci]=val;
+  salvar();
+  const ck=document.getElementById('ck'+bi+'_'+pi); if(ck)ck.innerHTML=chkHtml(BLOCOS[bi],bi,pi);
+  const stt=document.getElementById('stt'+bi);
+  const s=blocoStatus(bi);
+  if(stt){stt.className='status '+(s==='ok'?'ok':(s==='rev'?'rev':''));stt.textContent=s==='ok'?'✅ Estação concluída!':(s==='rev'?'🔁 Reveja os pontos marcados':'');}
+  atualizaRevisar();
+}
+function conferir(bi){
+  const b=BLOCOS[bi]; const st=mem['b'+bi];
+  for(let pi=0;pi<b.perguntas.length;pi++){
+    st.resp[pi]=document.getElementById('t'+bi+'_'+pi).value;
+    if((st.resp[pi]||'').trim().length<3){modal('Responda as 3 perguntas (pelo menos 3 letras em cada) antes de conferir. 🙂');return;}
+  }
+  let bloqueou=false;
+  for(let pi=0;pi<b.perguntas.length;pi++){
+    const copia=detectaCopia(st.resp[pi], b.texto, b.perguntas[pi].enun);
+    const av=document.getElementById('av'+bi+'_'+pi);
+    const pe=document.getElementById('p'+bi+'_'+pi);
+    if(copia){
+      st.tent[pi]=(st.tent[pi]||0)+1;
+      if(st.tent[pi]===1){
+        st.tentou[pi]=st.resp[pi];
+        if(av){av.className='aviso amarelo';av.innerHTML='✏️ Boa parte da sua resposta está igual ao texto. Tente reescrever com as SUAS palavras — explique como se fosse para um amigo, sem olhar o texto. Pode ficar mais curto e simples, o que vale é ser SEU.';}
+        bloqueou=true;
+      }else{
+        st.transc[pi]=true;
+        if(pe)pe.classList.add('verm');
+        if(av){av.className='aviso vermelho';av.innerHTML='🔴 Esta resposta ficou parecida com o texto. Ela foi aceita, mas entrou na lista "para revisar". Reescrever com suas palavras apaga esta marca.';}
+      }
+    }else{
+      st.transc[pi]=false;
+      if(pe)pe.classList.remove('verm');
+      if(av){av.className='aviso';av.textContent='';}
+    }
+  }
+  salvar();
+  if(bloqueou){
+    modal('Quase lá! Reescreva com suas palavras as respostas marcadas em amarelo e clique em Conferir de novo. ✏️');
+    return;
+  }
+  st.feito=true; st.quando=new Date().toLocaleString('pt-BR');
+  salvar(); render();
+  setTimeout(()=>{const el=document.getElementById('stt'+bi); if(el)el.scrollIntoView({behavior:'smooth',block:'center'});},60);
+}
+function irPara(bi){ render(); setTimeout(()=>{const els=document.querySelectorAll('.bloco'); if(els[bi])els[bi].scrollIntoView({behavior:'smooth'});},80); }
+function atualizaRevisar(){
+  const box=document.getElementById('revisar'); const ul=document.getElementById('revisar-lista'); if(!ul)return;
+  ul.innerHTML=''; let tem=false;
+  BLOCOS.forEach((b,bi)=>{const st=mem['b'+bi]; if(!st)return;
+    b.perguntas.forEach((p,pi)=>{
+      let motivo='';
+      if(st.transc[pi]) motivo='resposta parecida com o texto';
+      else if(st.feito && (st.chk[pi]||[]).some(v=>v==='nao')) motivo='autoavaliação com "não"';
+      if(motivo){tem=true; const li=document.createElement('li'); li.textContent=`${b.titulo} — pergunta ${pi+1} (${motivo})`; ul.appendChild(li);}
+    });
+  });
+  box.className='revisar'+(tem?' on':'');
+}
+
+// ===== Painel salvar =====
+function exportar(){
+  const dados={kit:"Laboratorio Decimal - Leitura Estendida 6o ano",quando:new Date().toISOString(),mem:mem};
+  const blob=new Blob([JSON.stringify(dados,null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='leitura-estendida_laboratorio-decimal.json'; a.click();
+}
+function importar(ev){
+  const f=ev.target.files[0]; if(!f)return; const r=new FileReader();
+  r.onload=()=>{try{const d=JSON.parse(r.result); if(d.mem){mem=d.mem;salvar();render();modal('Progresso importado! ✅');}}catch(e){modal('Não consegui ler esse arquivo. 😕');}};
+  r.readAsText(f);
+}
+function zerar(){ mem={}; try{localStorage.removeItem(KEY);}catch(e){} reserva={}; render(); salvar(); modal('Tudo zerado. Bom estudo! 🔬'); }
+function modal(t){document.getElementById('modaltxt').textContent=t;document.getElementById('modalbg').classList.add('on');}
+function fecharModal(){document.getElementById('modalbg').classList.remove('on');}
+
+carregar(); render(); salvar();
+</script>
+</body>
+</html>
